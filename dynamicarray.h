@@ -42,8 +42,8 @@ public:
 
 	virtual ~DynamicArray()
 	{
-		delete[] this->item;
 		this->size = 0;
+		delete[] this->item;
 	}
 
 
@@ -72,18 +72,14 @@ public:
 			throw NEGATIVE_SIZE_MESSAGE;
 
 		T* newArr = new T[size];
-		int max;
 		if (size > this->size)
-			max = size;
+			for (int i = 0; i < this->size; i++)
+				newArr[i] = item[i];
 		else
-			max = this->size;
-
-		for (int i = 0; i < max; i++)
-			newArr[i] = item[i];
-
+			for (int i = 0; i < size; i++)
+				newArr[i] = item[i];
 		delete[] item;
 		this->item = newArr;
-
 		this->size = size;
 	}
 

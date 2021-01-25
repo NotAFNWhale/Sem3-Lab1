@@ -12,7 +12,7 @@ template <typename T> class LinkedList
 private:
 	struct List 
 	{
-		T item;
+		T item = 0;
 		List* next = nullptr;
 	};
 

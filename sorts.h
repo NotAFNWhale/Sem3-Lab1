@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sequence.h"
-#include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -9,11 +9,11 @@ using namespace std;
 template <class T>
 double GetTimeSort(Sequence<T>* seq, void (*algSort)(Sequence<T>* seq))
 {
-    clock_t start = clock();
+    auto begin = chrono::steady_clock::now();
     algSort(seq);
-    clock_t end = clock();
-    double seconds = (double)(end - start) / CLOCKS_PER_SEC;
-    return seconds;
+    auto end = chrono::steady_clock::now();
+    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+    return msec.count();
 }
 
 
@@ -28,26 +28,18 @@ void merge(Sequence<T>* seq, int l, int r)
     while (pos1 <= mid && pos2 <= r)
     {
         if (seq->Get(pos1) < seq->Get(pos2))
-        {
             temp->Set(seq->Get(pos1++), pos3++);
-        }
         else
-        {
             temp->Set(seq->Get(pos2++), pos3++);
-        }
     }
     while (pos2 <= r)
-    {
         temp->Set(seq->Get(pos2++), pos3++);
-    }
+    
     while (pos1 <= mid)
-    {
         temp->Set(seq->Get(pos1++), pos3++);
-    }
+    
     for (pos3 = 0; pos3 < r - l + 1; pos3++)
-    {
         seq->Set(temp->Get(pos3), l + pos3);
-    }
     delete temp;
 }
 
@@ -119,18 +111,18 @@ void MergeSort(Sequence<T>* seq)
 template <class T>
 void SelectionSort(Sequence<T>* seq)
 {
-    T minElement = seq->Get(0);
-    int minIndex = 0;
-    for (int i = 1; i < seq->GetSize(); i++)
+    if (seq->GetSize() <= 1)
+        return;
+    T swp = 0;
+    for (int i = 0; i < seq->GetSize()-1; i++)
     {
-        for (int j = i+1; j < seq->GetSize(); j++)
-            if (seq->Get(j) < minElement)
-            {
-                minElement = seq->Get(j);
+        int minIndex =i;
+        for (int j = i; j < seq->GetSize(); j++)
+            if (seq->Get(j) < seq->Get(minIndex))
                 minIndex = j;
-            }
+        swp = seq->Get(minIndex);
         seq->Set(seq->Get(i), minIndex);
-        seq->Set(minElement, i);
+        seq->Set(swp, i);
     }
 }
 

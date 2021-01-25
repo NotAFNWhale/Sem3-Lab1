@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include "sorts.h"
-
+#include "test.h"
 using namespace std;
 
 
@@ -76,16 +76,17 @@ void SortTimeCheck(int sort_number, ArraySequence<int>* arr)
 	switch (sort_number)
 	{
 	case 1:
-		cout << GetTimeSort(copied, QuickSort) << endl;
+		cout << "Quick sort: " << GetTimeSort(copied, QuickSort) << " ms" << endl;
 		break;
 	case 2:
-		cout << GetTimeSort(copied, MergeSort) << endl;
+		cout << "Merge sort: " << GetTimeSort(copied, MergeSort) << " ms" << endl;
 		break;
 	case 3:
-		cout << GetTimeSort(copied, SelectionSort) << endl;
+		cout << "Selection sort: " << GetTimeSort(copied, SelectionSort) << " ms" << endl;
+		
 		break;
 	case 4:
-		cout << GetTimeSort(copied, BubbleSort) << endl;
+		cout << "Bubble sort: " << GetTimeSort(copied, BubbleSort) << " ms" << endl;
 		break;
 	}
 	delete copied;
@@ -105,13 +106,14 @@ void interface()
 	arrofint = Input();
 	int act = 0;
 	int sort_number;
-	while (act != 4)
+	while (act != 5)
 	{
 		cout << "Choose action with array:" << endl;
 		cout << "\t1. Check one sort time" << endl;
 		cout << "\t2. Compare sort times" << endl;
 		cout << "\t3. Input new array" << endl;
-		cout << "\t4. Exit" << endl;
+		cout << "\t4. Run tests" << endl;
+		cout << "\t5. Exit" << endl;
 		cout << "Action number:";
 		cin >> act;
 		switch (act)
@@ -128,10 +130,28 @@ void interface()
 			arrofint=Input();
 			break;
 		case 4:
+			testDynamicArray();
+			cout << "Dynamic Array passed tests" << endl;
+			testLinkedList();
+			cout << "Linked List passed tests" << endl;
+			testArraySequence();
+			cout << "Array Sequenece passed tests" << endl;
+			testListSequence();
+			cout << "List Sequence passed tests" << endl;
+			testSortFunctions();
+			cout << "Sort functions passed tests" << endl;
+			break;
+		case 5:
 			break;
 		default:
 			cout << "WRONG ACTION NUMBER" << endl;
 			break;
 		}
 	}
+}
+
+int main()
+{
+	interface();
+	return 0;
 }
